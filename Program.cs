@@ -29,7 +29,7 @@ GameScreen.Load += (s, e) =>
 
     var cameraPoint = new Point3D(GameScreen.Width / 2, GameScreen.Height / 2, 1);
     var normal = new Vector3(0, 1, 0);
-    cameraPlayer = new Camera(cameraPoint, 10, normal, 200, 200);
+    cameraPlayer = new Camera(cameraPoint, normal, 200, 200, 10);
     var cameraBlock = new Panel()
     {
         Width = size,
@@ -44,14 +44,14 @@ GameScreen.Load += (s, e) =>
     var squarePoint = new Point3D(squareX, squareY, 0);
 
 
-    var squerePanel = new Panel()
+    var squarePanel = new Panel()
     {
         Width = size,
         Height = size,
         BackColor = Color.Green,
         Location = new Point(squareX - size / 2, squareY - size / 2)
     };
-    GameScreen.Controls.Add(squerePanel);
+    GameScreen.Controls.Add(squarePanel);
 
     var bmp = new Bitmap(pb.Width, pb.Height);
     g = Graphics.FromImage(bmp);
@@ -60,6 +60,7 @@ GameScreen.Load += (s, e) =>
     g.DrawLine(Pens.Black, cameraPoint.X, cameraPoint.Y, normal.X, normal.Y);
 
     var flag = cameraPlayer.ShouldRender(squarePoint, 1000);
+    MessageBox.Show(flag.ToString());
 };
 
 Application.Run(GameScreen);

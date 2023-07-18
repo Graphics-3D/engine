@@ -11,13 +11,13 @@ public class Camera
     public int Height { get; set; }
     private readonly float d;
 
-    public Camera(Point3D location, float fov, Vector3 normal, int width, int height)
+    public Camera(Point3D location, Vector3 normal, int width, int height, float fov)
     {
         Location = location;
-        FOV = fov;
         Normal = normal;
         Width = width;
         Height = height;
+        FOV = fov;
 
         var ax = normal.X * location.X;
         var by = normal.Y * location.Y;

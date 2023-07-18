@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 
 namespace Engine;
@@ -43,9 +44,18 @@ public struct Point3D
 
     public PointF Projection(float FOV)
     {
-        var pojectedX = (X * FOV) / (Z + FOV);
-        var pojectedY = (Y * FOV) / (Z + FOV);
+        var projectedX = (X * FOV) / (Z + FOV);
+        var projectedY = (Y * FOV) / (Z + FOV);
 
-        return new PointF(pojectedX, pojectedY);
+        return new PointF(projectedX, projectedY);
     }
+
+    public override bool Equals([NotNullWhen(true)] object? obj)
+        => base.Equals(obj);
+
+    public override int GetHashCode()
+        => base.GetHashCode();
+
+    public override string? ToString()
+        => $"({X}, {Y}, {Z})";
 }
