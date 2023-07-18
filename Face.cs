@@ -1,48 +1,54 @@
 using Engine;
 
-public class Face
+public class Face : ITransformable<Face>
 {
-    private Point3D point { get; }
-    public Face(float p, float q, float r)
+    private Point3D p { get; }
+    private Point3D q { get; }
+    private Point3D r { get; }
+    public Face(Point3D p, Point3D q, Point3D r)
     {
-        point = new Point3D(p, q, r);
-    }
-    public Face RotateX(float cos, float sin) =>
-        new Face(
-            point.X.RotateX(cos, sin),
-            point.Y.RotateX(cos, sin),
-            point.Z.RotateX(cos, sin)
-            
-        );
-    public Face RotateY(float cosa, float sina) =>
-        new Face(
-            point.X.RotateY(cos, sin),
-            point.Y.RotateY(cos, sin),
-            point.Z.RotateY(cos, sin)
-        );
+        this.p = p;
+        this.q = q;
+        this.r = r;
 
-    public Face RotateZ(float cosa, float sina) =>
+    }
+
+    public Face Translate(float x, float y, float z) =>
         new Face(
-            point.X.RotateZ(cos, sin),
-            point.Y.RotateZ(cos, sin),
-            point.Z.RotateZ(cos, sin)
+            p.Translate(x, y, z),
+            q.Translate(x, y, z),
+            r.Translate(x, y, z)
         );
 
     public Face Scale(float x, float y, float z) =>
         new Face(
-            point.X.Scale(x, y, z),
-            point.Y.Scale(x, y, z),
-            point.Z.Scale(x, y, z)
+            p.Scale(x, y, z),
+            q.Scale(x, y, z),
+            r.Scale(x, y, z)
         );
 
-    public Face Translate(float x, float y, float z) =>
+    public Face RotateX(float cos, float sin) =>
         new Face(
-            point.X.Translate(x, y, z),
-            point.Y.Translate(x, y, z),
-            point.Z.Translate(x, y, z)
+            p.RotateX(cos, sin),
+            q.RotateX(cos, sin),
+            r.RotateX(cos, sin)
+            
         );
-        
+
+    public Face RotateY(float cos, float sin) =>
+        new Face(
+            p.RotateY(cos, sin),
+            q.RotateY(cos, sin),
+            r.RotateY(cos, sin)
+        );
+
+    public Face RotateZ(float cos, float sin) =>
+        new Face(
+            p.RotateZ(cos, sin),
+            q.RotateZ(cos, sin),
+            r.RotateZ(cos, sin)
+        );
 
     public override string ToString()
-        => $"{{{point.X}, {point.Y}, {point.Z}}}";
+        => $"{{{p}, {q}, {r}}}";
 }

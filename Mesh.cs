@@ -7,13 +7,13 @@ namespace Engine;
 
 public class Mesh
 {
-    public int[] Faces { get; set; }
+    public Face[] Faces { get; set; }
 
-    public Mesh(IEnumerable<int> faces)
+    public Mesh(IEnumerable<Face> faces)
     {
         Faces = faces.ToArray();
     }
-    public Mesh(params int[] faces)
+    public Mesh(params Face[] faces)
     {
         Faces = faces;
     }
