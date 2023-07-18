@@ -1,15 +1,12 @@
+using Engine;
+
 public class Face
 {
-
     private Point3D point { get; }
- 
-    
-
     public Face(float p, float q, float r)
     {
         point = new Point3D(p, q, r);
     }
-
     public Face RotateX(float cos, float sin) =>
         new Face(
             point.X.RotateX(cos, sin),
@@ -17,7 +14,6 @@ public class Face
             point.Z.RotateX(cos, sin)
             
         );
-
     public Face RotateY(float cosa, float sina) =>
         new Face(
             point.X.RotateY(cos, sin),

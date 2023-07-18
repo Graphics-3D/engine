@@ -1,6 +1,8 @@
-using System.Numerics;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+
+namespace Engine;
 
 public struct Point3D
 {
@@ -17,22 +19,7 @@ public struct Point3D
         Y = y;
         Z = z;
     }
-
-    public float Angle(Point3D point)
-    {
-        // TODO
-        var matrix = new Matrix4x4(
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        );
-
-        var det = matrix.GetDeterminant();
-
-        return det;
-    }
-
+    
     public float Dist(Point3D point)
     {
         var dx = point.X - this.X;
@@ -44,13 +31,35 @@ public struct Point3D
         return dist;
     }
 
-    public PointF Projection(float FOV)
+    public float DistSquared(Point3D point)
     {
-        var pojectedX = (X * FOV) / (Z + FOV);
-        var pojectedY = (Y * FOV) / (Z + FOV);
+        var dx = point.X - this.X;
+        var dy = point.Y - this.Y;
+        var dz = point.Z - this.Z;
 
-        return new PointF(pojectedX, pojectedY);
+        var dist = dx*dx + dy*dy + dz*dz;
+
+        return dist;
     }
 
+    public PointF Projection(float FOV)
+    {
+        var projectedX = (X * FOV) / (Z + FOV);
+        var projectedY = (Y * FOV) / (Z + FOV);
 
+        return new PointF(projectedX, projectedY);
+    }
+
+<<<<<<< HEAD
+
+=======
+    public override bool Equals([NotNullWhen(true)] object? obj)
+        => base.Equals(obj);
+
+    public override int GetHashCode()
+        => base.GetHashCode();
+
+    public override string? ToString()
+        => $"({X}, {Y}, {Z})";
+>>>>>>> c678208f15d923abd5b76dafd500064c088c59f0
 }
