@@ -27,7 +27,7 @@ public class Camera
         d = -(ax + by + cz);
     }
 
-    private float GetD(Point3D point)
+    private bool IsInFrontOfThePlan(Point3D point)
     {
         var ax = Normal.X * point.X;
         var by = Normal.Y * point.Y;
@@ -35,15 +35,10 @@ public class Camera
 
         var result = ax + by + cz + d;
         
-        return result;
+        return result > 0;
     }
 
     public bool ShouldRender(Point3D point, int maxDist)
-    {
-        var isInFrontOf = GetD(point) > 0;
-
-        var isValidDist = Location.Dist(point) <= maxDist;
-
-        return isInFrontOf && isValidDist;
-    }
+        =>  IsInFrontOfThePlan(point) &&
+            Location.Dist(point) <= maxDist;
 }
