@@ -7,47 +7,47 @@ namespace Engine;
 
 public class Mesh
 {
-    public int[] Faces { get; set; }
+    public Faces[] Faces { get; set; }
 
-    public Mesh(IEnumerable<int> faces)
+    public Mesh(IEnumerable<Faces> faces)
     {
         Faces = faces.ToArray();
     }
-    public Mesh(params int[] faces)
+    public Mesh(params Faces[] faces)
     {
         Faces = faces;
     }
     public Mesh RotateX(float cos, float sin)
     {
-        for (int i = 0; i < Faces.Count(); i++)
+        for (Faces i = 0; i < Faces.Count(); i++)
             Faces[i] = Faces[i].RotateX(cos, sin);
         return this;
     }
 
     public Mesh RotateY(float cosa, float sina)
     {
-        for (int i = 0; i < Faces.Length; i++)
+        for (Faces i = 0; i < Faces.Length; i++)
             Faces[i] = Faces[i].RotateY(cosa, sina);
         return this;
     }
 
     public Mesh RotateZ(float cosa, float sina)
     {
-        for (int i = 0; i < Faces.Length; i++)
+        for (Faces i = 0; i < Faces.Length; i++)
             Faces[i] = Faces[i].RotateZ(cosa, sina);
         return this;
     }
 
     public Mesh Scale(float x, float y, float z)
     {
-        for (int i = 0; i < Faces.Length; i++)
+        for (Faces i = 0; i < Faces.Length; i++)
             Faces[i] = Faces[i].Scale(x, y, z);
         return this;
     }
 
     public Mesh Translate(float x, float y, float z)
     {
-        for (int i = 0; i < Faces.Length; i++)
+        for (Faces i = 0; i < Faces.Length; i++)
             Faces[i] = Faces[i].Translate(x, y, z);
         return this;
     }
