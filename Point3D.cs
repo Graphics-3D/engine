@@ -1,6 +1,7 @@
-using System.Numerics;
 using System;
 using System.Drawing;
+
+namespace Engine;
 
 public struct Point3D
 {
@@ -17,22 +18,7 @@ public struct Point3D
         Y = y;
         Z = z;
     }
-
-    public float Angle(Point3D point)
-    {
-        // TODO
-        var matrix = new Matrix4x4(
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        );
-
-        var det = matrix.GetDeterminant();
-
-        return det;
-    }
-
+    
     public float Dist(Point3D point)
     {
         var dx = point.X - this.X;
@@ -40,6 +26,17 @@ public struct Point3D
         var dz = point.Z - this.Z;
 
         var dist = MathF.Sqrt(dx*dx + dy*dy + dz*dz);
+
+        return dist;
+    }
+
+    public float DistSquared(Point3D point)
+    {
+        var dx = point.X - this.X;
+        var dy = point.Y - this.Y;
+        var dz = point.Z - this.Z;
+
+        var dist = dx*dx + dy*dy + dz*dz;
 
         return dist;
     }

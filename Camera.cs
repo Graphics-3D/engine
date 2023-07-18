@@ -1,69 +1,47 @@
 using System.Numerics;
 
+namespace Engine;
+
 public class Camera
 {
     public Point3D Location { get; set; }
     public float FOV { get; set; }
+    public Vector3 Normal { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+    private readonly float d;
 
-    private float yaw;
-    public float Yaw
-    {
-        get
-        {
-            return yaw;
-        }
-        set
-        {
-            yaw = value % 360;
-        }
-    }
-
-    private float pitch;
-    public float Pitch
-    {
-        get
-        {
-            return pitch;
-        }
-        set
-        {
-            pitch = value % 360;
-        }
-    }
-
-    public Camera(Point3D location, float fov, float crrX, float crrY)
+    public Camera(Point3D location, float fov, Vector3 normal, int width, int height)
     {
         Location = location;
         FOV = fov;
-        Yaw = crrX;
-        Pitch = crrY;
+        Normal = normal;
+        Width = width;
+        Height = height;
+
+        var ax = normal.X * location.X;
+        var by = normal.Y * location.Y;
+        var cz = normal.Z * location.Z;
+        
+        // ax + by + cz = -d
+        d = -(ax + by + cz);
     }
 
     private float GetD(Point3D point)
     {
-        var v = new Vector3(
-            point.X - Location.X,
-            point.Y - Location.Y,
-            point.Z - Location.Z
-        );
+        var ax = Normal.X * point.X;
+        var by = Normal.Y * point.Y;
+        var cz = Normal.Z * point.Z;
 
-        var ax = v.X * Location.X;
-        var by = v.Y * Location.Y;
-        var cz = v.Z * Location.Z;
+        var result = ax + by + cz + d;
         
-        // ax + by + cz + d = 0
-        // ax + by + cz = -d
-        var d = -(ax + by + cz);
-        
-        return d;
+        return result;
     }
 
     public bool ShouldRender(Point3D point, int maxDist)
     {
-        var d = GetD(point);
+        var isInFrontOf = GetD(point) > 0;
 
-        var isInFrontOf = d > 0;
-        
         var isValidDist = Location.Dist(point) <= maxDist;
 
         return isInFrontOf && isValidDist;
