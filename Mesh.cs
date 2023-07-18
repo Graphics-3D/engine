@@ -52,6 +52,45 @@ public class Mesh
         return this;
     }
 
+    public static Mesh GenerateRectangle(Point3D p, Point3D q, Point3D r)
+    {
+        var faces = new List<Face>();
+        
+        var points = new Point3D[] { p, q, r};
+
+        for (int i = 0; i < 9; i++)
+        {
+            var aIndex = i / 3;
+            var bIndex = i % 3;
+
+            if (aIndex == bIndex)
+                continue;
+
+            var square = GetSquare(points[aIndex], points[bIndex]);
+            faces.AddRange(square);
+        }
+
+        var mesh = new Mesh(faces);
+        
+        return mesh;
+
+        static Face[] GetSquare(Point3D a, Point3D b)
+        {
+            var face1 = new Face(
+                a,
+                new Point3D(a.X, b.Y, (a.Z + b.Z) / 2),
+                b
+            );
+            var face2 = new Face(
+                a,
+                new Point3D(b.X, a.Y, (a.Z + b.Z) / 2),
+                b
+            );
+
+            return new Face[] { face1, face2 };
+        }
+    }
+
     public override string ToString()
     {
         var sb = new StringBuilder();

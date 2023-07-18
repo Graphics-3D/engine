@@ -2,9 +2,9 @@ using Engine;
 
 public class Face : ITransformable<Face>
 {
-    private Point3D p { get; }
-    private Point3D q { get; }
-    private Point3D r { get; }
+    public Point3D p { get; }
+    public Point3D q { get; }
+    public Point3D r { get; }
     public Face(Point3D p, Point3D q, Point3D r)
     {
         this.p = p;
