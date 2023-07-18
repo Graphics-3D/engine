@@ -30,10 +30,10 @@ GameScreen.Load += (s, e) =>
     };
 
     GameScreen.Controls.Add(cameraBlock);
-    // var squarePoint = new Point3D(GameScreen.Width / 2 + 100, GameScreen.Height / 2 + 200, 1);
-    // var flag = cameraPlayer.ShouldRender(squarePoint, 1000);
+    var squarePoint = new Point3D(GameScreen.Width / 2 + 100, GameScreen.Height / 2 + 200, 1);
+    var flag = cameraPlayer.ShouldRender(squarePoint, 1000);
 
-    // MessageBox.Show(flag.ToString());
+    MessageBox.Show(flag.ToString());
 };
 
 Application.Run(GameScreen);

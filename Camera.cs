@@ -4,26 +4,30 @@ public class Camera
 {
     public Point3D Location { get; set; }
     public float FOV { get; set; }
-    public float CrrX
+
+    private float yaw;
+    public float Yaw
     {
         get
         {
-            return CrrX;
+            return yaw;
         }
         set
         {
-            CrrX = value % 360;
+            yaw = value % 360;
         }
     }
-    public float CrrY
+
+    private float pitch;
+    public float Pitch
     {
         get
         {
-            return CrrY;
+            return pitch;
         }
         set
         {
-            CrrY = value % 360;
+            pitch = value % 360;
         }
     }
 
@@ -31,8 +35,8 @@ public class Camera
     {
         Location = location;
         FOV = fov;
-        CrrX = crrX;
-        CrrY = crrY;
+        Yaw = crrX;
+        Pitch = crrY;
     }
 
     private float GetD(Point3D point)
