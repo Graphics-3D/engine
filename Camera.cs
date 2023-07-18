@@ -1,14 +1,17 @@
+using System.Drawing;
 using System.Numerics;
 
 namespace Engine;
 
 public class Camera
 {
+    private readonly Graphics g;
+
     public Point3D Location { get; set; }
     public float FOV { get; set; }
     public Vector3 Normal { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    public int Width { get; init; }
+    public int Height { get; init; }
     private readonly float d;
 
     public Camera(Point3D location, Vector3 normal, int width, int height, float fov)
@@ -25,7 +28,20 @@ public class Camera
         
         // ax + by + cz = -d
         d = -(ax + by + cz);
+
+        var bmp = new Bitmap(Width, Height);
+        g = Graphics.FromImage(bmp);
     }
+
+    public void Render(Scene scene)
+    {
+
+        
+    }
+
+    public bool ShouldRender(Point3D point, int maxDist)
+        =>  IsInFrontOfThePlan(point) &&
+            Location.Dist(point) <= maxDist;
 
     private bool IsInFrontOfThePlan(Point3D point)
     {
@@ -38,7 +54,8 @@ public class Camera
         return result > 0;
     }
 
-    public bool ShouldRender(Point3D point, int maxDist)
-        =>  IsInFrontOfThePlan(point) &&
-            Location.Dist(point) <= maxDist;
+    public void Draw()
+    {
+
+    }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,28 +12,16 @@ public class Mesh
     {
         Faces = faces.ToArray();
     }
+    
     public Mesh(params Face[] faces)
     {
         Faces = faces;
     }
-    public Mesh RotateX(float cos, float sin)
-    {
-        for (int i = 0; i < Faces.Count(); i++)
-            Faces[i] = Faces[i].RotateX(cos, sin);
-        return this;
-    }
 
-    public Mesh RotateY(float cosa, float sina)
+    public Mesh Translate(float x, float y, float z)
     {
         for (int i = 0; i < Faces.Length; i++)
-            Faces[i] = Faces[i].RotateY(cosa, sina);
-        return this;
-    }
-
-    public Mesh RotateZ(float cosa, float sina)
-    {
-        for (int i = 0; i < Faces.Length; i++)
-            Faces[i] = Faces[i].RotateZ(cosa, sina);
+            Faces[i] = Faces[i].Translate(x, y, z);
         return this;
     }
 
@@ -45,10 +32,24 @@ public class Mesh
         return this;
     }
 
-    public Mesh Translate(float x, float y, float z)
+    public Mesh RotateX(float cos, float sin)
+    {
+        for (int i = 0; i < Faces.Count(); i++)
+            Faces[i] = Faces[i].RotateX(cos, sin);
+        return this;
+    }
+
+    public Mesh RotateY(float cos, float sin)
     {
         for (int i = 0; i < Faces.Length; i++)
-            Faces[i] = Faces[i].Translate(x, y, z);
+            Faces[i] = Faces[i].RotateY(cos, sin);
+        return this;
+    }
+
+    public Mesh RotateZ(float cos, float sin)
+    {
+        for (int i = 0; i < Faces.Length; i++)
+            Faces[i] = Faces[i].RotateZ(cos, sin);
         return this;
     }
 

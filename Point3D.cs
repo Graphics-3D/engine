@@ -51,34 +51,34 @@ public struct Point3D : ITransformable<Point3D>
     }
 
     public Point3D Translate(float x, float y, float z)
-        => new (X + x, Y + y, Z + z);
+        => new(X + x, Y + y, Z + z);
 
     public Point3D Scale(float x, float y, float z)
-        => new (X * x, Y * y, Z * z);
+        => new(X * x, Y * y, Z * z);
 
     public Point3D RotateX(float cos, float sin)
-        => new (X, Y * cos - Z * sin, Y * sin + Z * cos);
+        => new(X, Y * cos - Z * sin, Y * sin + Z * cos);
 
     public Point3D RotateY(float cos, float sin)
-        => new (X * cos + Z * sin, Y, Z * cos - Y * sin);
+        => new(X * cos + Z * sin, Y, Z * cos - Y * sin);
 
     public Point3D RotateZ(float cos, float sin)
-        => new (X * cos - Y * sin, Y * cos + X * sin, Z);
+        => new(X * cos - Y * sin, Y * cos + X * sin, Z);
 
     public static Point3D operator +(Point3D p, Point3D v)
-        => new (p.X + v.X, p.Y + v.Y, p.Z + v.Z);
+        => new(p.X + v.X, p.Y + v.Y, p.Z + v.Z);
 
     public static Point3D operator -(Point3D p, Point3D v)
-        => new (p.X - v.X, p.Y - v.Y, p.Z - v.Z);
+        => new(p.X - v.X, p.Y - v.Y, p.Z - v.Z);
 
     public static Point3D operator *(Point3D p, Point3D v)
-        => new (p.X * v.X, p.Y * v.Y, p.Z * v.Z);
+        => new(p.X * v.X, p.Y * v.Y, p.Z * v.Z);
 
     public static Point3D operator /(Point3D p, Point3D v)
-        => new (p.X / v.X, p.Y / v.Y, p.Z / v.Z);
+        => new(p.X / v.X, p.Y / v.Y, p.Z / v.Z);
 
     public static implicit operator Point3D((float X, float Y, float Z) axis)
-        => new (axis.X, axis.Y, axis.Z);
+        => new(axis.X, axis.Y, axis.Z);
 
     public override bool Equals([NotNullWhen(true)] object? obj)
         => base.Equals(obj);
