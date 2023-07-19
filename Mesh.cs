@@ -51,42 +51,85 @@ public class Mesh
         return this;
     }
 
-    public static Mesh GenerateRectangle(Point3D p, Point3D q, Point3D r)
+    public static Mesh GenerateRectangle(Point3D a, Point3D b)
     {
         var faces = new List<Face>();
-        var points = new Point3D[] { p, q, r };
 
-        for (int i = 0; i < 9; i++)
-        {
-            var aIndex = i / 3;
-            var bIndex = i % 3;
+        // Front
+        faces.Add(new Face(
+            new Point3D(a.X, a.Y, a.Z),
+            new Point3D(b.X, a.Y, a.Z),
+            new Point3D(a.X, b.Y, a.Z)
+        ));
+        faces.Add(new Face(
+            new Point3D(a.X, b.Y, a.Z),
+            new Point3D(b.X, b.Y, a.Z),
+            new Point3D(b.X, a.Y, a.Z)
+        ));
 
-            if (aIndex == bIndex)
-                continue;
+        // Back
+        faces.Add(new Face(
+            new Point3D(a.X, a.Y, b.Z),
+            new Point3D(b.X, a.Y, b.Z),
+            new Point3D(a.X, b.Y, b.Z)
+        ));
+        faces.Add(new Face(
+            new Point3D(a.X, b.Y, b.Z),
+            new Point3D(b.X, b.Y, b.Z),
+            new Point3D(b.X, a.Y, b.Z)
+        ));
 
-            var square = GetSquare(points[aIndex], points[bIndex]);
-            faces.AddRange(square);
-        }
+        // Right
+        faces.Add(new Face(
+            new Point3D(b.X, a.Y, a.Z),
+            new Point3D(b.X, b.Y, a.Z),
+            new Point3D(b.X, a.Y, b.Z)
+        ));
+        faces.Add(new Face(
+            new Point3D(b.X, a.Y, b.Z),
+            new Point3D(b.X, b.Y, b.Z),
+            new Point3D(b.X, b.Y, a.Z)
+        ));
+
+        // Left
+        faces.Add(new Face(
+            new Point3D(a.X, a.Y, a.Z),
+            new Point3D(a.X, b.Y, a.Z),
+            new Point3D(a.X, a.Y, b.Z)
+        ));
+        faces.Add(new Face(
+            new Point3D(a.X, a.Y, b.Z),
+            new Point3D(a.X, b.Y, b.Z),
+            new Point3D(a.X, b.Y, a.Z)
+        ));
+
+        // Top
+        faces.Add(new Face(
+            new Point3D(a.X, a.Y, b.Z),
+            new Point3D(a.X, a.Y, a.Z),
+            new Point3D(b.X, a.Y, a.Z)
+        ));
+        faces.Add(new Face(
+            new Point3D(a.X, a.Y, b.Z),
+            new Point3D(b.X, a.Y, b.Z),
+            new Point3D(b.X, a.Y, a.Z)
+        ));
+
+        // Back
+        faces.Add(new Face(
+            new Point3D(a.X, b.Y, b.Z),
+            new Point3D(a.X, b.Y, a.Z),
+            new Point3D(b.X, b.Y, a.Z)
+        ));
+        faces.Add(new Face(
+            new Point3D(a.X, b.Y, b.Z),
+            new Point3D(b.X, b.Y, b.Z),
+            new Point3D(b.X, b.Y, a.Z)
+        ));
 
         var mesh = new Mesh(faces);
         
         return mesh;
-
-        static Face[] GetSquare(Point3D a, Point3D b)
-        {
-            var rightFace = new Face(
-                a,
-                new Point3D(a.X, b.Y, (a.Z + b.Z) / 2),
-                b
-            );
-            var leftFace = new Face(
-                a,
-                new Point3D(b.X, a.Y, (a.Z + b.Z) / 2),
-                b
-            );
-
-            return new Face[] { leftFace, rightFace };
-        }
     }
 
     public override string ToString()

@@ -44,6 +44,11 @@ public struct Point3D : ITransformable<Point3D>
 
     public PointF Projection(float FOV)
     {
+        
+
+
+
+
         var projectedX = (X * FOV) / (Z + FOV);
         var projectedY = (Y * FOV) / (Z + FOV);
 
