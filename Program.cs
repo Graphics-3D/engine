@@ -46,8 +46,8 @@ tm.Tick += delegate
     pb.Refresh();
     g.Clear(Color.White);
     rec = rec
-        .RotateY(0.1f, 0.1f)
-        .Translate(200, 0, 0);
+        .RotateZ(0.1f, 0.1f)
+        .Translate(200, 200, 0);
 };
 
 GameScreen.Load += (s, e) =>

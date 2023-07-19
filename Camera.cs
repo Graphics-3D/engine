@@ -12,15 +12,18 @@ public class Camera
     public Vector3 Normal { get; set; }
     public int Width { get; init; }
     public int Height { get; init; }
+    public Color ClearColor { get; set; } = Color.White;
+    public int DistanceRender { get; init; } 
     private readonly float d;
 
-    public Camera(Point3D location, Vector3 normal, int width, int height, float fov)
+    public Camera(Point3D location, Vector3 normal, int width, int height, float fov, int distanceRender)
     {
         Location = location;
         Normal = normal;
         Width = width;
         Height = height;
         FOV = fov;
+        DistanceRender = distanceRender;
 
         var ax = normal.X * location.X;
         var by = normal.Y * location.Y;
@@ -35,13 +38,28 @@ public class Camera
 
     public void Render(Scene scene)
     {
+        g.Clear(ClearColor);
 
-        
+        foreach (var mesh in scene.Meshes)
+        {
+            foreach (var face in mesh.Faces)
+            {
+                if (!ShouldRender(face.p) && !ShouldRender(face.q) && !ShouldRender(face.r))
+                    continue;
+
+                g.DrawPolygon(Pens.Black, new PointF[]
+                {
+                    face.p.Projection(FOV),
+                    face.q.Projection(FOV),
+                    face.r.Projection(FOV)
+                });
+            }
+        }
     }
 
-    public bool ShouldRender(Point3D point, int maxDist)
+    public bool ShouldRender(Point3D point)
         =>  IsInFrontOfThePlan(point) &&
-            Location.Dist(point) <= maxDist;
+            Location.Dist(point) <= DistanceRender;
 
     private bool IsInFrontOfThePlan(Point3D point)
     {
