@@ -1,10 +1,11 @@
-using Engine;
+namespace Engine;
 
 public class Face : ITransformable<Face>
 {
     public Point3D p { get; }
     public Point3D q { get; }
     public Point3D r { get; }
+
     public Face(Point3D p, Point3D q, Point3D r)
     {
         this.p = p;

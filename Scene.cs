@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Engine;
 
 public class Scene
 {
     public List<Mesh> Meshes { get; private set; } = new();
-    
     public List<Light> Lights { get; private set; } = new();
-    
+    public Color BackgroundColor { get; set; } = Color.White;
+
     private static Scene crr = new Scene();
 
     private Scene() { }

@@ -5,15 +5,14 @@ namespace Engine;
 
 public class Camera
 {
-    private readonly Graphics g;
-
     public Point3D Location { get; set; }
     public float FOV { get; set; }
     public Vector3 Normal { get; set; }
     public int Width { get; init; }
     public int Height { get; init; }
-    public Color ClearColor { get; set; } = Color.White;
     public int DistanceRender { get; init; } 
+
+    private readonly Graphics g;
     private readonly float d;
 
     public Camera(Point3D location, Vector3 normal, int width, int height, float fov, int distanceRender)
@@ -38,7 +37,7 @@ public class Camera
 
     public void Render(Scene scene)
     {
-        g.Clear(ClearColor);
+        g.Clear(scene.BackgroundColor);
 
         foreach (var mesh in scene.Meshes)
         {
@@ -47,7 +46,7 @@ public class Camera
                 if (!ShouldRender(face.p) && !ShouldRender(face.q) && !ShouldRender(face.r))
                     continue;
 
-                g.DrawPolygon(Pens.Black, new PointF[]
+                g.DrawPolygon(mesh.Pen, new PointF[]
                 {
                     face.p.Projection(FOV),
                     face.q.Projection(FOV),
