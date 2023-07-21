@@ -1,9 +1,6 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Numerics;
-
 namespace Engine;
+
+using Core;
 
 public struct Point3D : ITransformable<Point3D>
 {
@@ -27,7 +24,7 @@ public struct Point3D : ITransformable<Point3D>
         var dy = point.Y - this.Y;
         var dz = point.Z - this.Z;
 
-        var dist = MathF.Sqrt(dx*dx + dy*dy + dz*dz);
+        var dist = System.MathF.Sqrt(dx*dx + dy*dy + dz*dz);
 
         return dist;
     }
@@ -66,12 +63,6 @@ public struct Point3D : ITransformable<Point3D>
 
     public static implicit operator Point3D((float X, float Y, float Z) axis)
         => new(axis.X, axis.Y, axis.Z);
-
-    public override bool Equals([NotNullWhen(true)] object? obj)
-        => base.Equals(obj);
-
-    public override int GetHashCode()
-        => base.GetHashCode();
 
     public override string? ToString()
         => $"({X}, {Y}, {Z})";

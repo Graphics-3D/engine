@@ -1,7 +1,3 @@
-using System.Drawing;
-using System.Linq;
-using System.Numerics;
-
 namespace Engine;
 
 public class Camera
@@ -245,6 +241,7 @@ public class Camera
         // x * vy - b * ux * vy + b * uy * vx = y * vx
         // x * vy + b * (-ux * vy + uy * vx) = y * vx
         // b = (y * vx - x * vy) / (-ux * vy + uy * vx)
+        
         var b = (y * vx - x * vy) / (-ux * vy + uy * vx);
         var a = (x - b * ux) / vx;
 
