@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Numerics;
 
 namespace Engine;
 
@@ -42,19 +43,6 @@ public struct Point3D : ITransformable<Point3D>
         return dist;
     }
 
-    public PointF Projection(float FOV)
-    {
-        
-
-
-
-
-        var projectedX = (X * FOV) / (Z + FOV);
-        var projectedY = (Y * FOV) / (Z + FOV);
-
-        return new PointF(projectedX, projectedY);
-    }
-
     public Point3D Translate(float x, float y, float z)
         => new(X + x, Y + y, Z + z);
 
@@ -73,14 +61,8 @@ public struct Point3D : ITransformable<Point3D>
     public static Point3D operator +(Point3D p, Point3D v)
         => new(p.X + v.X, p.Y + v.Y, p.Z + v.Z);
 
-    public static Point3D operator -(Point3D p, Point3D v)
+    public static Vector3 operator -(Point3D p, Point3D v)
         => new(p.X - v.X, p.Y - v.Y, p.Z - v.Z);
-
-    public static Point3D operator *(Point3D p, Point3D v)
-        => new(p.X * v.X, p.Y * v.Y, p.Z * v.Z);
-
-    public static Point3D operator /(Point3D p, Point3D v)
-        => new(p.X / v.X, p.Y / v.Y, p.Z / v.Z);
 
     public static implicit operator Point3D((float X, float Y, float Z) axis)
         => new(axis.X, axis.Y, axis.Z);

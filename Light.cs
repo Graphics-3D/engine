@@ -1,6 +1,3 @@
 namespace Engine;
 
-public class Light
-{
-    
-}
+public class Light { }
