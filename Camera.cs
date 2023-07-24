@@ -152,7 +152,7 @@ public class Camera
     {
         var pointInPlane = GetPointInPlane(point);
 
-        var point2D = TranformPoint(pointInPlane);
+        var point2D = TransformPoint(pointInPlane);
 
         return point2D;
     }
@@ -198,7 +198,7 @@ public class Camera
         return result > 0;
     }
 
-    private PointF TranformPoint(Point3D point)
+    private PointF TransformPoint(Point3D point)
     {
         var v = this.Vertical;
 
@@ -221,16 +221,16 @@ public class Camera
 
         float a, b;
         if (v.X != 0)
-            (a, b) = BaseTranformation(x, y, vx, vy, ux, uy);
+            (a, b) = BaseTransformation(x, y, vx, vy, ux, uy);
         else if (v.Y != 0)
-            (a, b) = BaseTranformation(y, z, vy, vz, uy, uz);
+            (a, b) = BaseTransformation(y, z, vy, vz, uy, uz);
         else
-            (a, b) = BaseTranformation(z, x, vz, vx, uz, ux);
+            (a, b) = BaseTransformation(z, x, vz, vx, uz, ux);
 
         return new PointF(a + 480, b + 320);
     }
 
-    private (float a, float b) BaseTranformation(float x, float y, float vx, float vy, float ux, float uy)
+    private (float a, float b) BaseTransformation(float x, float y, float vx, float vy, float ux, float uy)
     {
         // a * vx + b * ux = x
         // a = (x - b * ux) / vx
@@ -303,6 +303,12 @@ public class Camera
             X = this.Location.X + x,
             Y = this.Location.Y + y,
             Z = this.Location.Z + z
+        };
+    public void Rotate(float x, float y, float z)
+        => this.Normal = this.Normal with
+        {
+            X = this.Location.X + x,
+            Y = this.Location.Y + y
         };
 
     public void Zoom(float scale)
