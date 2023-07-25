@@ -1,6 +1,6 @@
 using Engine.Core;
 
-namespace Engine.Meshs;
+namespace Engine.Meshes;
 
 public class Cube : Mesh
 {

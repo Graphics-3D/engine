@@ -1,6 +1,6 @@
 namespace Engine;
 
-using Meshs;
+using Meshes;
 
 public class Scene
 {

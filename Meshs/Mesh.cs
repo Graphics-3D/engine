@@ -1,4 +1,4 @@
-namespace Engine.Meshs;
+namespace Engine.Meshes;
 
 using Core;
 

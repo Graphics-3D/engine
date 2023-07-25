@@ -313,4 +313,43 @@ public class Camera
 
     public void Zoom(float scale)
         => this.scale += scale;
+
+    public void RotateX(float cos, float sin)
+    {
+        this.Normal = this.Normal with
+        {
+            Y = this.Normal.Y * cos - this.Normal.Z * sin,
+            Z = this.Normal.Y * sin + this.Normal.Z * cos
+        };
+
+        this.Vertical = this.Vertical with
+        {
+            Y = this.Vertical.Y * cos - this.Vertical.Z * sin,
+            Z = this.Vertical.Y * sin + this.Vertical.Z * cos
+        };
+    }
+
+    public void RotateY(float cos, float sin)
+    {
+        this.Normal = this.Normal with
+        {
+            X = this.Normal.X * cos + this.Normal.Z * sin,
+            Z = this.Normal.Z * cos - this.Normal.X * sin
+        };
+
+        this.Vertical = this.Vertical with
+        {
+            X = this.Vertical.X * cos + this.Vertical.Z * sin,
+            Z = this.Vertical.Z * cos - this.Vertical.X * sin
+        };
+    }
+
+    public void RotateZ(float cos, float sin)
+    {
+        this.Normal = this.Normal with
+        {
+            X = this.Normal.X * cos - this.Normal.Y * sin,
+            Y = this.Normal.Y * cos + this.Normal.X * sin
+        };
+    }
 }
