@@ -1,5 +1,7 @@
 namespace Engine;
 
+using Core;
+
 public class Camera
 {
     private Point3D location;
@@ -166,26 +168,93 @@ public class Camera
 
         foreach (var mesh in scene.Meshes)
         {
-            var shouldRender = mesh.Faces.Any(face => ShouldRender(face.p) && ShouldRender(face.q) && ShouldRender(face.r));
+            var shouldRender = mesh.Faces.Any(face => !ShouldRender(face.p) && !ShouldRender(face.q) && !ShouldRender(face.r));
 
             if (!shouldRender)
                 continue;
 
             foreach (var face in mesh.Faces)
             {
-                g.DrawPolygon(mesh.Pen, new PointF[]
+                var points = new PointF[]
                 {
                     Transform(face.p),
                     Transform(face.q),
                     Transform(face.r)
-                });
+                };
+
+                if (!IsInsideOfScreen(points) && IsInsideOfTheRectangle(points))
+                    continue;
+                
+                g.DrawPolygon(mesh.Pen, points);
+                // g.FillPolygon(Brushes.Azure, points);
             }
         }
     }
 
     public bool ShouldRender(Point3D point)
         =>  IsInFrontOfThePlane(point) &&
-            Location.Dist(point) <= DistanceRender;
+            Location.DistSquared(point) <= DistanceRender;
+
+    private bool IsInsideOfTheRectangle(PointF[] points)
+    {
+        var transformedCenter = Transform(center);
+        var centerX = transformedCenter.X;
+        var centerY = transformedCenter.Y;
+
+        var halfHeight = this.Height / 2;
+        var halfWidth = this.Width / 2;
+
+        var maxX = centerX + halfWidth;
+        var minX = centerX + halfWidth;
+
+        var maxY = centerY + halfHeight;
+        var minY = centerY + halfHeight;
+
+        var flag = true;
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            var x = points[i].X;
+            var y = points[i].Y;
+
+            if (
+                x < minX ||
+                y < minY ||
+                x > maxX ||
+                y > maxY
+            )
+            {
+                flag = false;
+                break;
+            }
+        }
+
+        return flag;
+    }
+
+    private bool IsInsideOfScreen(PointF[] points)
+    {
+        var result = true;
+        for (int i = 0; i < points.Length; i++)
+        {
+            var x = points[i].X;
+            var y = points[i].Y;
+            var margin = 1000;
+
+            if (
+                x < -margin ||
+                x > this.Width + margin ||
+                y < -margin ||
+                y > this.Height + margin
+            )
+            {
+                result = false;
+                break;
+            }
+        }
+
+        return result;
+    }
 
     private bool IsInFrontOfThePlane(Point3D point)
     {
@@ -195,7 +264,7 @@ public class Camera
 
         var result = ax + by + cz + d;
         
-        return result > 0;
+        return result >= 0;
     }
 
     private PointF TransformPoint(Point3D point)
@@ -227,6 +296,7 @@ public class Camera
         else
             (a, b) = BaseTransformation(z, x, vz, vx, uz, ux);
 
+        // !!!!!!!!!!!!
         return new PointF(a + 480, b + 320);
     }
 
@@ -304,12 +374,6 @@ public class Camera
             Y = this.Location.Y + y,
             Z = this.Location.Z + z
         };
-    public void Rotate(float x, float y, float z)
-        => this.Normal = this.Normal with
-        {
-            X = this.Location.X + x,
-            Y = this.Location.Y + y
-        };
 
     public void Zoom(float scale)
         => this.scale += scale;
@@ -350,6 +414,29 @@ public class Camera
         {
             X = this.Normal.X * cos - this.Normal.Y * sin,
             Y = this.Normal.Y * cos + this.Normal.X * sin
+        };
+
+        // this.Vertical = this.Vertical with
+        // {
+        //     X = this.Vertical.X * cos - this.Vertical.Y * sin,
+        //     Y = this.Vertical.Y * cos + this.Vertical.X * sin
+        // };
+    }
+
+    public void Rotate(float cosX, float sinX, float cosY, float sinY)
+    {
+        this.Normal = this.Normal with
+        {
+            X = (this.Normal.X * cosX - this.Normal.Y * cosX) * (this.Normal.X * cosY + this.Normal.Z * sinY),
+            Y = this.Normal.Y * cosX + this.Normal.X * cosX,
+            Z = this.Normal.Z * cosY - this.Normal.X * sinY
+        };
+
+        this.Vertical = this.Vertical with
+        {
+            X = (this.Vertical.X * cosX - this.Vertical.Y * cosX) * (this.Vertical.X * cosY + this.Vertical.Z * sinY),
+            Y = this.Vertical.Y * cosX + this.Vertical.X * cosX,
+            Z = this.Vertical.Z * cosY - this.Vertical.X * sinY
         };
     }
 }

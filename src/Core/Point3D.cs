@@ -1,6 +1,4 @@
-namespace Engine;
-
-using Core;
+namespace Engine.Core;
 
 public struct Point3D : ITransformable<Point3D>
 {
@@ -50,7 +48,7 @@ public struct Point3D : ITransformable<Point3D>
         => new(X, Y * cos - Z * sin, Y * sin + Z * cos);
 
     public Point3D RotateY(float cos, float sin)
-        => new(X * cos + Z * sin, Y, Z * cos - Y * sin);
+        => new(X * cos + Z * sin, Y, Z * cos - X * sin);
 
     public Point3D RotateZ(float cos, float sin)
         => new(X * cos - Y * sin, Y * cos + X * sin, Z);

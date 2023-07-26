@@ -2,7 +2,7 @@ namespace Engine.Meshes;
 
 using Core;
 
-public class Mesh
+public class Mesh : ITransformable<Mesh>
 {
     public Face[] Faces { get; protected set; }
 
@@ -67,4 +67,7 @@ public class Mesh
 
         return sb.ToString();
     }
+    
+    public static Mesh Cube(float x, float y, float z, float size)
+        => new Cube((x, y, z), size);
 }
