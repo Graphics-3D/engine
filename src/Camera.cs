@@ -319,7 +319,7 @@ public class Camera
             (a, b) = BaseTransformation(z, x, vz, vx, uz, ux);
 
         // !!!!!!!!!!!!
-        return new PointF(a + 480, b + 320);
+        return new PointF(a + Width/2, b + Height/2);
     }
 
     private (float a, float b) BaseTransformation(float x, float y, float vx, float vy, float ux, float uy)
