@@ -64,6 +64,17 @@ public class Camera
             UpdateValues();
         }
     }
+
+    private Vector3 horizontal;
+    public Vector3 Horizontal
+    {
+        get => horizontal;
+        set
+        {
+            horizontal = value;
+            UpdateValues();
+        }
+    }
     
     private int width = 1280;
     public int Width
@@ -148,6 +159,7 @@ public class Camera
 
         productVec = Vector3.Cross(Vertical, Normal);
         center = GetPlaneCenter(Location);
+        horizontal = Vector3.Abs(Normal) * Vertical;
     }
 
     private PointF Transform(Point3D point)
@@ -426,11 +438,11 @@ public class Camera
             Y = this.Normal.Y * cos + this.Normal.X * sin
         };
 
-        // this.Vertical = this.Vertical with
-        // {
-        //     X = this.Vertical.X * cos - this.Vertical.Y * sin,
-        //     Y = this.Vertical.Y * cos + this.Vertical.X * sin
-        // };
+        this.Vertical = this.Vertical with
+        {
+            X = this.Vertical.X * cos - this.Vertical.Y * sin,
+            Y = this.Vertical.Y * cos + this.Vertical.X * sin
+        };
     }
 
     public void RotateGimbalLock(float cosY, float sinY, float cosZ, float sinZ)
