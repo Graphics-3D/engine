@@ -168,7 +168,7 @@ public class Camera
 
         foreach (var mesh in scene.Meshes)
         {
-            var shouldRender = mesh.Faces.Any(face => !ShouldRender(face.p) && !ShouldRender(face.q) && !ShouldRender(face.r));
+            var shouldRender = mesh.Faces.Any(face => ShouldRender(face));
 
             if (!shouldRender)
                 continue;
@@ -182,7 +182,7 @@ public class Camera
                     Transform(face.r)
                 };
 
-                if (!IsInsideOfScreen(points) && IsInsideOfTheRectangle(points))
+                if (!IsInsideOfScreen(points))// && IsInsideOfTheRectangle(points))
                     continue;
                 
                 g.DrawPolygon(mesh.Pen, points);
@@ -191,9 +191,19 @@ public class Camera
         }
     }
 
-    public bool ShouldRender(Point3D point)
-        =>  IsInFrontOfThePlane(point) &&
-            Location.DistSquared(point) <= DistanceRender;
+    public bool ShouldRender(Face face)
+    {
+        var result = face.Points.Any(point =>
+        {
+            var isInFrontOf = IsInFrontOfThePlane(point);
+
+            var validDist = Location.DistSquared(point) <= DistanceRender * DistanceRender;
+            
+            return isInFrontOf && validDist;
+        });
+
+        return result;
+    }
 
     private bool IsInsideOfTheRectangle(PointF[] points)
     {
