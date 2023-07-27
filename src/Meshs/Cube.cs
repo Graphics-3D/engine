@@ -164,13 +164,13 @@ public class Cube : Mesh
         ) return "false";
 
         if (x == minX || x == maxX)
-            return "Left/Right";
-
-        if (y == minY || y == maxY)
             return "Front/Back";
 
+        if (y == minY || y == maxY)
+            return "Left/Right";
+
         // Error
-        if(z >= minZ || z <= maxZ)
+        if(z == minZ || z == maxZ)
             return "Top/Bottom";
 
         return "true";

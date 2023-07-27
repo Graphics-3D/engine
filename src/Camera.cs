@@ -423,20 +423,24 @@ public class Camera
         // };
     }
 
-    public void Rotate(float cosX, float sinX, float cosY, float sinY)
+    public void RotateGimbalLock(float cosY, float sinY, float cosZ, float sinZ)
     {
         this.Normal = this.Normal with
         {
-            X = (this.Normal.X * cosX - this.Normal.Y * cosX) * (this.Normal.X * cosY + this.Normal.Z * sinY),
-            Y = this.Normal.Y * cosX + this.Normal.X * cosX,
-            Z = this.Normal.Z * cosY - this.Normal.X * sinY
+            X = cosZ * cosY * this.Normal.X - sinZ * this.Normal.Y + cosZ * sinY * this.Normal.Z,
+            Y = sinZ * cosY * this.Normal.X + cosZ * this.Normal.Y + sinZ * sinY * this.Normal.Z,
+            Z = -sinY * this.Normal.X + cosY * this.Normal.Z
         };
 
         this.Vertical = this.Vertical with
         {
-            X = (this.Vertical.X * cosX - this.Vertical.Y * cosX) * (this.Vertical.X * cosY + this.Vertical.Z * sinY),
-            Y = this.Vertical.Y * cosX + this.Vertical.X * cosX,
-            Z = this.Vertical.Z * cosY - this.Vertical.X * sinY
+            X = cosZ * cosY * this.Vertical.X - sinZ * this.Vertical.Y + cosZ * sinY * this.Vertical.Z,
+            Y = sinZ * cosY * this.Vertical.X + cosZ * this.Vertical.Y + sinZ * sinY * this.Vertical.Z,
+            Z = -sinY * this.Vertical.X + cosY * this.Vertical.Z
         };
+    }
+    
+    public void RotateQuaternion(float cosY, float sinY, float cosZ, float sinZ)
+    {
     }
 }
