@@ -45,79 +45,79 @@ public class Cube : Mesh
         var z = this.Location.Z;
 
         this.Faces[index++] = new Face(
-            new Point3D(x - size, y - size, z - size),
-            new Point3D(x - size, y - size, z + size),
-            new Point3D(x - size, y + size, z - size)
+            new Point3D(x - half, y - half, z - half),
+            new Point3D(x - half, y - half, z + half),
+            new Point3D(x - half, y + half, z - half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x - size, y + size, z + size),
-            new Point3D(x - size, y - size, z + size),
-            new Point3D(x - size, y + size, z - size)
+            new Point3D(x - half, y + half, z + half),
+            new Point3D(x - half, y - half, z + half),
+            new Point3D(x - half, y + half, z - half)
         );
         
         this.Faces[index++] = new Face(
-            new Point3D(x - size, y - size, z - size),
-            new Point3D(x - size, y - size, z + size),
-            new Point3D(x + size, y - size, z - size)
+            new Point3D(x - half, y - half, z - half),
+            new Point3D(x - half, y - half, z + half),
+            new Point3D(x + half, y - half, z - half)
         );
         
         this.Faces[index++] = new Face(
-            new Point3D(x + size, y - size, z + size),
-            new Point3D(x - size, y - size, z + size),
-            new Point3D(x + size, y - size, z - size)
+            new Point3D(x + half, y - half, z + half),
+            new Point3D(x - half, y - half, z + half),
+            new Point3D(x + half, y - half, z - half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x + size, y - size, z + size),
-            new Point3D(x + size, y - size, z - size),
-            new Point3D(x + size, y + size, z + size)
+            new Point3D(x + half, y - half, z + half),
+            new Point3D(x + half, y - half, z - half),
+            new Point3D(x + half, y + half, z + half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x + size, y + size, z - size),
-            new Point3D(x + size, y + size, z + size),
-            new Point3D(x + size, y + size, z - size)
+            new Point3D(x + half, y + half, z - half),
+            new Point3D(x + half, y + half, z + half),
+            new Point3D(x + half, y + half, z - half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x - size, y + size, z + size),
-            new Point3D(x + size, y + size, z + size),
-            new Point3D(x - size, y + size, z - size)
+            new Point3D(x - half, y + half, z + half),
+            new Point3D(x + half, y + half, z + half),
+            new Point3D(x - half, y + half, z - half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x + size, y + size, z - size),
-            new Point3D(x + size, y + size, z + size),
-            new Point3D(x - size, y + size, z - size)
+            new Point3D(x + half, y + half, z - half),
+            new Point3D(x + half, y + half, z + half),
+            new Point3D(x - half, y + half, z - half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x + size, y - size, z + size),
-            new Point3D(x + size, y + size, z + size),
-            new Point3D(x - size, y - size, z + size)
+            new Point3D(x + half, y - half, z + half),
+            new Point3D(x + half, y + half, z + half),
+            new Point3D(x - half, y - half, z + half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x - size, y + size, z + size),
-            new Point3D(x + size, y + size, z + size),
-            new Point3D(x - size, y - size, z + size)
+            new Point3D(x - half, y + half, z + half),
+            new Point3D(x + half, y + half, z + half),
+            new Point3D(x - half, y - half, z + half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x + size, y + size, z - size),
-            new Point3D(x - size, y + size, z - size),
-            new Point3D(x + size, y - size, z - size)
+            new Point3D(x + half, y + half, z - half),
+            new Point3D(x - half, y + half, z - half),
+            new Point3D(x + half, y - half, z - half)
         );
 
         this.Faces[index++] = new Face(
-            new Point3D(x - size, y - size, z - size),
-            new Point3D(x - size, y + size, z - size),
-            new Point3D(x + size, y - size, z - size)
+            new Point3D(x - half, y - half, z - half),
+            new Point3D(x - half, y + half, z - half),
+            new Point3D(x + half, y - half, z - half)
         );
     }
 
-    public string Collided(Point3D point)
+    public CollidedResult Collided(Point3D point)
     {
         float
             minX = float.MaxValue,
@@ -161,18 +161,26 @@ public class Cube : Mesh
             x < minX || x > maxX ||
             y < minY || y > maxY ||
             z < minZ || z > maxZ
-        ) return "false";
+        ) return CollidedResult.False;
 
-        if (x == minX || x == maxX)
-            return "Front/Back";
+        if (x == minX)
+            return CollidedResult.Front;
 
-        if (y == minY || y == maxY)
-            return "Left/Right";
+        if (x == maxX)
+            return CollidedResult.Back;
 
+        if (y == minY)
+            return CollidedResult.Left;
+        
+        if (y == maxY)
+            return CollidedResult.Right;
         // Error
-        if(z == minZ || z == maxZ)
-            return "Top/Bottom";
+        if(z == minZ)
+            return CollidedResult.Top;
 
-        return "true";
+        if (z == maxZ)
+            return CollidedResult.Bottom;
+
+        return CollidedResult.True;
     }
 }
