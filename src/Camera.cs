@@ -194,7 +194,7 @@ public class Camera
                     Transform(face.r)
                 };
 
-                if (!IsInsideOfScreen(points))// && IsInsideOfTheRectangle(points))
+                if (!IsInsideOfScreen(points) && IsInsideOfTheRectangle(points))
                     continue;
                 
                 g.DrawPolygon(mesh.Pen, points);
@@ -438,11 +438,11 @@ public class Camera
             Y = this.Normal.Y * cos + this.Normal.X * sin
         };
 
-        this.Vertical = this.Vertical with
-        {
-            X = this.Vertical.X * cos - this.Vertical.Y * sin,
-            Y = this.Vertical.Y * cos + this.Vertical.X * sin
-        };
+        // this.Vertical = this.Vertical with
+        // {
+        //     X = this.Vertical.X * cos - this.Vertical.Y * sin,
+        //     Y = this.Vertical.Y * cos + this.Vertical.X * sin
+        // };
     }
 
     public void RotateGimbalLock(float cosY, float sinY, float cosZ, float sinZ)

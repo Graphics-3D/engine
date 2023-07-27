@@ -117,7 +117,7 @@ public class Cube : Mesh
         );
     }
 
-    public CollidedResult Collided(Point3D point)
+    public (CollidedResult result, float top, float bottom) Collided(Point3D point)
     {
         float
             minX = float.MaxValue,
@@ -161,26 +161,26 @@ public class Cube : Mesh
             x < minX || x > maxX ||
             y < minY || y > maxY ||
             z < minZ || z > maxZ
-        ) return CollidedResult.False;
+        ) return (CollidedResult.False, 0f, 0f);
 
-        if (x == minX)
-            return CollidedResult.Front;
+        // if (x == minX)
+        //     return CollidedResult.Front;
 
-        if (x == maxX)
-            return CollidedResult.Back;
+        // if (x == maxX)
+        //     return CollidedResult.Back;
 
-        if (y == minY)
-            return CollidedResult.Left;
+        // if (y == minY)
+        //     return CollidedResult.Left;
         
-        if (y == maxY)
-            return CollidedResult.Right;
-        // Error
-        if(z == minZ)
-            return CollidedResult.Top;
+        // if (y == maxY)
+        //     return CollidedResult.Right;
+        // // Error
+        // if(z == minZ)
+        //     return CollidedResult.Top;
 
-        if (z == maxZ)
-            return CollidedResult.Bottom;
+        // if (z == maxZ)
+        //     return CollidedResult.Bottom;
 
-        return CollidedResult.True;
+        return (CollidedResult.True, maxZ, minZ);
     }
 }
