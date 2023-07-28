@@ -1,5 +1,6 @@
 namespace Engine;
 
+using System;
 using Core;
 
 public class Camera
@@ -462,7 +463,41 @@ public class Camera
         };
     }
     
-    public void RotateQuaternion(float cosY, float sinY, float cosZ, float sinZ)
+    public void RotateQuaternionX(float theta)
     {
+        this.Normal = quaternionRotate(this.Normal, Vector3.UnitX, theta);
+        this.Vertical = quaternionRotate(this.Vertical, Vector3.UnitX, theta);
+    }
+
+    public void RotateQuaternionY(float theta)
+    {
+        this.Normal = quaternionRotate(this.Normal, Vector3.UnitY, theta);
+        this.Vertical = quaternionRotate(this.Vertical, Vector3.UnitY, theta);
+    }
+
+    public void RotateQuaternionZ(float theta)
+    {
+        this.Normal = quaternionRotate(this.Normal, Vector3.UnitZ, theta);
+        this.Vertical = quaternionRotate(this.Vertical, Vector3.UnitZ, theta);
+    }
+
+    private Vector3 quaternionRotate(Vector3 rotationVector, Vector3 axisVector, float theta)
+    {
+        // https://www.gamedev.net/tutorials/programming/math-and-physics/a-simple-quaternion-based-camera-r1997/
+
+        Quaternion V = new(rotationVector, 0);
+        Vector3 A = axisVector;
+        var sin = MathF.Sin(theta / 2);
+        var cos = MathF.Cos(theta / 2);
+
+        Quaternion R = new();
+        R.X = A.X * sin;
+        R.Y = A.Y * sin;
+        R.Z = A.Z * sin;
+        R.W = cos;
+
+        var W = R * V * Quaternion.Conjugate(R);
+
+        return new Vector3(W.X, W.Y, W.Z);
     }
 }
