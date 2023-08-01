@@ -199,7 +199,6 @@ public class Camera
                     continue;
                 
                 g.DrawPolygon(mesh.Pen, points);
-                // g.FillPolygon(Brushes.Azure, points);
             }
         }
     }
@@ -319,7 +318,6 @@ public class Camera
         else
             (a, b) = BaseTransformation(z, x, vz, vx, uz, ux);
 
-        // !!!!!!!!!!!!
         return new PointF(a + Width/2, b + Height/2);
     }
 
@@ -439,11 +437,11 @@ public class Camera
             Y = this.Normal.Y * cos + this.Normal.X * sin
         };
 
-        // this.Vertical = this.Vertical with
-        // {
-        //     X = this.Vertical.X * cos - this.Vertical.Y * sin,
-        //     Y = this.Vertical.Y * cos + this.Vertical.X * sin
-        // };
+        this.Vertical = this.Vertical with
+        {
+            X = this.Vertical.X * cos - this.Vertical.Y * sin,
+            Y = this.Vertical.Y * cos + this.Vertical.X * sin
+        };
     }
 
     public void RotateGimbalLock(float cosY, float sinY, float cosZ, float sinZ)
@@ -490,11 +488,12 @@ public class Camera
         var sin = MathF.Sin(theta / 2);
         var cos = MathF.Cos(theta / 2);
 
-        Quaternion R = new();
-        R.X = A.X * sin;
-        R.Y = A.Y * sin;
-        R.Z = A.Z * sin;
-        R.W = cos;
+        Quaternion R = new(
+            A.X * sin,
+            A.Y * sin,
+            A.Z * sin,
+            cos
+        );
 
         var W = R * V * Quaternion.Conjugate(R);
 
