@@ -469,8 +469,8 @@ public class Camera
 
     public void RotateQuaternionY(float theta)
     {
-        this.Normal = quaternionRotate(this.Normal, Vector3.UnitY, theta);
-        this.Vertical = quaternionRotate(this.Vertical, Vector3.UnitY, theta);
+        this.Normal = quaternionRotate(this.Normal, this.Vertical, theta);
+        this.Vertical = quaternionRotate(this.Vertical, this.Vertical, theta);
     }
 
     public void RotateQuaternionZ(float theta)
